@@ -2,14 +2,12 @@
  * Demo program for Exercise 2.
  * Author: Benjamin Saldman.
  */
-
-//#include "Graph.hpp"
 #include "Algorithms.hpp"
+#include "Graph.hpp"
+
 using ariel::Algorithms;
 
-#include <iostream>
 #include <stdexcept>
-#include <vector>
 using namespace std;
 
 int main()

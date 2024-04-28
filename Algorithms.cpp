@@ -1,9 +1,6 @@
 #include "Algorithms.hpp"
-#include <iostream>
-#include <queue>
-#include <stack>
+
 using namespace ariel;
-using namespace std;
 
 // ----------------- Public ---------------------
 

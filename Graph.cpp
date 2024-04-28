@@ -1,8 +1,7 @@
-#include "Algorithms.hpp"
+#include "Graph.hpp"
 #include <iostream>
 
 using namespace ariel;
-using namespace std;
 
 Graph::Graph() {}
 
@@ -38,6 +37,6 @@ void Graph::loadGraph(vector <vector<int>> graph) {
 }
 
 void Graph::printGraph() {
-    cout << "Graph with " << _adjMatrix.size() << " vertices and " << _edges << " edges." << endl;
+    std::cout << "Graph with " << _adjMatrix.size() << " vertices and " << _edges << " edges." << std::endl;
 }
 

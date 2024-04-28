@@ -1,4 +1,5 @@
 #include <vector>
+#pragma once
 #define INF INT32_MAX
 
 using namespace std;
