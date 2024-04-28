@@ -14,8 +14,6 @@ namespace ariel {
 
     public:
 
-        int _specialV;
-
         Graph();
 
         void loadGraph(vector<vector<int>> graph);
