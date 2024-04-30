@@ -6,6 +6,11 @@ using namespace ariel;
 Graph::Graph() {}
 
 void Graph::loadGraph(vector <vector<int>> graph) {
+    if(graph.size() == 1){
+        throw invalid_argument("Invalid graph: The graph is has only one Vertice.");
+    }
+
+
     if (graph.size() != graph[0].size()){
         throw invalid_argument("Invalid graph: The graph is not a square matrix.");
     }
