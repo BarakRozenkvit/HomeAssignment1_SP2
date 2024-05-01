@@ -11,6 +11,7 @@ namespace ariel{
     class Algorithms{
 
     private:
+        // TODO Dijkstra: https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
         /**
          * the 2-Coloring-Graph algorithm
          * @param g Graph

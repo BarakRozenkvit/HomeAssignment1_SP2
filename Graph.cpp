@@ -29,6 +29,9 @@ void Graph::loadGraph(vector <vector<int>> graph) {
             if (_adjMatrix[i][j] != 0) {
                 _edges++;
             }
+            if(_adjMatrix[i][j] < 0){
+                _isNegativeEdges = true;
+            }
         }
     }
 

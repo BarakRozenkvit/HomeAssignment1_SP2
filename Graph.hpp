@@ -11,6 +11,7 @@ namespace ariel {
         vector<vector<int>> _adjMatrix;
         int _edges = 0;
         bool _isDirected = false;
+        bool _isNegativeEdges = false;
 
 
     public:
@@ -30,6 +31,9 @@ namespace ariel {
         }
         int getEdges(){
             return _edges;
+        }
+        bool getisNegativeEdges(){
+            return _isNegativeEdges;
         }
     };
 }
