@@ -35,5 +35,6 @@ namespace ariel {
         bool getisNegativeEdges(){
             return _isNegativeEdges;
         }
+        void addS();
     };
 }

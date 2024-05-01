@@ -12,6 +12,7 @@ namespace ariel{
 
     private:
         // TODO Dijkstra: https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
+        static vector<int> Dijkstra(Graph g,int src);
         /**
          * the 2-Coloring-Graph algorithm
          * @param g Graph
@@ -113,6 +114,7 @@ namespace ariel{
         static string isBipartite(Graph g);
         /**
          * This function calculates if there's a negative cycle in the graph
+         * add S to graph
          * @param g Graph
          * @return String of cycle "a->...->a" if there is a negative cycle, "0" if there isn't
          */

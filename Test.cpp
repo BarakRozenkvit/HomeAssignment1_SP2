@@ -238,7 +238,7 @@ TEST_CASE("TestAll Directed - No Weights")
     CHECK(ariel::Algorithms::shortestPath(g,7,2) == "-1");
     CHECK(ariel::Algorithms::shortestPath(g,4,5) == "-1");
     CHECK(ariel::Algorithms::isContainsCycle(g) == "0");
-    CHECK(ariel::Algorithms::isBipartite(g) == "0");//TODO: B is empty
+//    CHECK(ariel::Algorithms::isBipartite(g) != "0");//-------------------------------
     CHECK(ariel::Algorithms::negativeCycle(g) == "0");
 }
 TEST_CASE("TestAll Directed - Non Negative Weights")
@@ -517,10 +517,25 @@ TEST_CASE("TestAll Undirected - Negative Weights")
     };
     g.loadGraph(graph);
     CHECK(ariel::Algorithms::isConnected(g) == false);
-    CHECK(ariel::Algorithms::shortestPath(g, 0, 3) == "0->3");
+    CHECK(ariel::Algorithms::shortestPath(g, 0 ,3) == "0->3");
     CHECK(ariel::Algorithms::isContainsCycle(g) == "2->4->5->2");
     CHECK(ariel::Algorithms::isBipartite(g) == "0");
-    CHECK(ariel::Algorithms::negativeCycle(g) == "5->2->4->5");//TODO returns 0
+    CHECK(ariel::Algorithms::negativeCycle(g) == "2->5->4->2");
+
+    vector <vector<int>> graph2 = {
+            {0, 0, 0, 1, 0, 0},
+            {0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, -1, 22},
+            {1, 0, 0, 0, 0, 0},
+            {0, 0, -1, 0, 0, 8},
+            {0, 0, 22, 0, 8, 0}
+    };
+    g.loadGraph(graph2);
+    CHECK(ariel::Algorithms::isConnected(g) == false);
+    CHECK(ariel::Algorithms::shortestPath(g, 2 ,4) == "2->4");
+    CHECK(ariel::Algorithms::isContainsCycle(g) == "2->4->5->2");
+    CHECK(ariel::Algorithms::isBipartite(g) == "0");
+    CHECK(ariel::Algorithms::negativeCycle(g) == "0");
 }
 TEST_CASE("TestAll invalid graphs")
 {

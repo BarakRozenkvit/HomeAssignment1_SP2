@@ -48,3 +48,16 @@ void Graph::printGraph() {
     std::cout << "Graph with " << _adjMatrix.size() << " vertices and " << _edges << " edges." << std::endl;
 }
 
+void Graph::addS(){
+    vector<vector<int>> new_mat(_adjMatrix.size()+1,vector<int>(_adjMatrix.size()+1));
+    for(int i=0;i<new_mat.size();i++) {
+        for (int j = 0; j < new_mat.size(); j++) {
+            if(i==new_mat.size() -1 ){new_mat[i][j] = 1;}
+            else if(j==new_mat.size() - 1){new_mat[i][j] = INF;}
+            else{new_mat[i][j] = _adjMatrix[i][j];}
+        }
+    }
+    new_mat[new_mat.size() - 1][new_mat.size() - 1] = 0;
+    _adjMatrix = new_mat;
+}
+

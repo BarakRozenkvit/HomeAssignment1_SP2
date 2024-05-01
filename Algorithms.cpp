@@ -41,7 +41,16 @@ bool Algorithms::isConnected(Graph g) {
 }
 
 string Algorithms::shortestPath(Graph g, int src, int dest) {
+    //// Theorem: Dijkstra calculates shortestPath from src to any v in V
     /// Theorem: BellmanFord calculates shortestPath from src to any v in V while weight are negative and non negative
+    // if non negative weight
+    if(!g.getisNegativeEdges()){
+        // Running Dijkstra in g from src
+        // Pie Array:
+        vector<int> pieVertice = Dijkstra(g,src);
+        // retunr path
+        return pathString(pieVertice,src,dest);
+    }
     // Running BF in g from src
     pair<pair<vector<int>,vector<int>>,pair<bool,int>> BellmanFordResult = Algorithms::BellmanFord(g, src);
     // Results of DF:
@@ -51,6 +60,7 @@ string Algorithms::shortestPath(Graph g, int src, int dest) {
     vector<int> dVertices = BellmanFordResult.first.second;
     // Is there negative cycle
     bool isNegativeCycle = BellmanFordResult.second.first;
+
     if(isNegativeCycle){
         // If there is negative cycle, no shortest path
         return "-1";
@@ -117,8 +127,12 @@ string Algorithms::isBipartite(Graph g) {
 
 string Algorithms::negativeCycle(Graph g) {
     //// Theorem: BellmanFord can detect negative cycle
+    //// Theorem 2: add s with weight equal to 0 directed to all vertices bellmanFord reach everywhere
+    // add s to graph
+    g.addS();
+    int s = g.getAdjMatrix().size() - 1;
     // Run BF
-    pair<pair<vector<int>,vector<int>>,pair<bool,int>> BellmanFordResult = Algorithms::BellmanFord(g, 0);
+    pair<pair<vector<int>,vector<int>>,pair<bool,int>> BellmanFordResult = Algorithms::BellmanFord(g, s);
     // Pie array of vertices
     vector<int> pieVertices = BellmanFordResult.first.first;
     // if is negative cycle
@@ -133,6 +147,50 @@ string Algorithms::negativeCycle(Graph g) {
 
 
 // ---------------- Private -----------------------
+
+vector<int> Algorithms::Dijkstra(Graph g,int src){
+    int V = g.getAdjMatrix().size();
+    vector<int> d(V,INF);
+    vector<int> pie(V,-1);
+    vector<bool> sptSet(V,false);
+    d[src] = 0;
+
+    // Find shortest path for all vertices
+    for (int count = 0; count < V - 1; count++) {
+        // Pick the minimum distance vertex from the set of
+        // vertices not yet processed. u is always equal to
+        // src in the first iteration.
+        int min = INF, min_index;
+            for (int v = 0; v < V; v++)
+                if (!sptSet[v] && d[v] <= min)
+                    min = d[v], min_index = v;
+
+        int u = min_index;
+        // Mark the picked vertex as processed
+        sptSet[u] = true;
+
+        // Update dist value of the adjacent vertices of the
+        // picked vertex.
+        for (int v = 0; v < V; v++){
+
+            // Update dist[v] only if is not in sptSet,
+            // there is an edge from u to v, and total
+            // weight of path from src to v through u is
+            // smaller than current value of dist[v]
+            // TODO Fix Algorithm
+            if(u==v || d[u] == INF || g.getAdjMatrix()[u][v] == INF){
+                continue;}
+
+            if (!sptSet[v] && g.getAdjMatrix()[u][v]
+                && d[u] != INF
+                && d[u] + g.getAdjMatrix()[u][v] < d[v]) {
+                d[v] = d[u] + g.getAdjMatrix()[u][v];
+                pie[v] = u;
+            }
+            }
+    }
+    return pie;
+}
 
 pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph g, int src) {
     bool IsNegativeCycle = false;
