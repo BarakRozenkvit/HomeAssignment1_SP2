@@ -11,10 +11,17 @@ namespace ariel{
     class Algorithms{
 
     private:
-        // TODO Dijkstra: https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
+        /**
+         * The single source shortest path algorithm of Dijkstra for non negative weighted and non weighted graph
+         * Reference: https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
+         * @param g Graph
+         * @param src Source Vertex
+         * @return List of Pie for each v
+         */
         static vector<int> Dijkstra(Graph g,int src);
         /**
          * the 2-Coloring-Graph algorithm
+         * Reference: Algorithms 1 - Tirgul 4
          * @param g Graph
          * @return tree of data:
          *          data.first = boolean if it possible
@@ -29,6 +36,7 @@ namespace ariel{
         static Graph Transpose(Graph g);
         /**
          * this function is edge relaxation on edge e=(u,v)
+         * Referance: Algorithms 1 - Lecture 10
          * @param g Graph
          * @param u Vertice
          * @param v Vertice
@@ -38,8 +46,8 @@ namespace ariel{
          */
         static bool relax(Graph g,int u, int v,vector<int>* d,vector<int>* pie);
         /**
-         * The single source shortest path algorithm of Bellman Ford
-         * pair<pair<pie[v],d[v]>,pair<IsNegativeCycle,vStartCycle>>
+         * The single source shortest path algorithm of Bellman Ford for non negative and negative weighted graph
+         * Referance: Algorithms 1 - Lecture 10
          * @param g Graph
          * @param src Source Vertice
          * @return Tree of data
@@ -59,6 +67,7 @@ namespace ariel{
         static string pathString(vector<int> vertices ,int src,int dest);
         /**
          * The Depth-first-search algorithm
+         * Referance: Algorithms 1 - Lecture 6
          * @param g Graph
          * @param orderOfVertices order of vertices to scan DFS
          * @return Tree of data
@@ -70,6 +79,7 @@ namespace ariel{
         static pair<pair<stack<int>,vector<int>>,pair<int,int>> DFS(Graph g,stack<int> orderOfVertices);
         /**
          * The DFS_Visit part of DFS algorithm
+         * Referance: Algorithms 1 - Lecture 6
          * @param g Graph
          * @param u Source Vertice
          * @param d List of d(start time) for each v
@@ -87,34 +97,34 @@ namespace ariel{
 
     public:
         /**
+         * Reference: Algorithms 1 - Lecture 6
          * the Kosaraju algorithm for strongly connection components - checking if only one strongly connected component
          * @param g Graph
          * @return true or false
          */
         static bool isConnected(Graph g);
         /**
-         * This function calculates the shortest path from src to dest only if there's not negative cycle
+         * This function calculates the shortest path from src to dest
          * @param g: Graph
          * @param src: Source Vertice
          * @param dest: Destination Vertice
-         * @return String of path "src->...->dest"
+         * @return String of path "src->...->dest", if no path "-1"
          */
         static string shortestPath(Graph g,int src,int dest);
         /**
-         * This functiona calculate if there is a cycle in the graph
+         * This function calculate if there is a cycle in the graph
          * @param g Graph
          * @return String of cycle "a->...->a" if there is a negative cycle, "0" if there isn't
          */
         static string isContainsCycle(Graph g);
         /**
-         * this function calculate if the graph is Bipartite using the 2-Color Algorithm
+         * this function calculate if the graph is Bipartite
          * @param g Graph
          * @return String of two groups of vertices "A={...}, B={...}", if not "0";
          */
         static string isBipartite(Graph g);
         /**
          * This function calculates if there's a negative cycle in the graph
-         * add S to graph
          * @param g Graph
          * @return String of cycle "a->...->a" if there is a negative cycle, "0" if there isn't
          */

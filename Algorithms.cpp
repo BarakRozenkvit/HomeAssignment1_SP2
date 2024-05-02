@@ -43,17 +43,17 @@ bool Algorithms::isConnected(Graph g) {
 string Algorithms::shortestPath(Graph g, int src, int dest) {
     //// Theorem: Dijkstra calculates shortestPath from src to any v in V
     /// Theorem: BellmanFord calculates shortestPath from src to any v in V while weight are negative and non negative
-    // if non negative weight
+    // If non negative weights run Dijkstra in g from src
     if(!g.getisNegativeEdges()){
-        // Running Dijkstra in g from src
+        // Results of Dijkstra:
         // Pie Array:
         vector<int> pieVertice = Dijkstra(g,src);
         // retunr path
         return pathString(pieVertice,src,dest);
     }
-    // Running BF in g from src
+    // If negative weights run BF in g from src
     pair<pair<vector<int>,vector<int>>,pair<bool,int>> BellmanFordResult = Algorithms::BellmanFord(g, src);
-    // Results of DF:
+    // Results of BF:
     // Pie Array:
     vector<int> pieVertice = BellmanFordResult.first.first;
     // Distance from src Array
@@ -114,6 +114,7 @@ string Algorithms::isBipartite(Graph g) {
                 B += to_string(i) + ", ";
             }
         }
+        // Designing the string
         A.pop_back();A.pop_back();
         B.pop_back();B.pop_back();
         A += "}";
@@ -149,12 +150,15 @@ string Algorithms::negativeCycle(Graph g) {
 // ---------------- Private -----------------------
 
 vector<int> Algorithms::Dijkstra(Graph g,int src){
+    // 1. Creating the arrays to save the results
     int V = g.getAdjMatrix().size();
     vector<int> d(V,INF);
     vector<int> pie(V,-1);
+    // sptSet is array to declare if v has been relaxed
     vector<bool> sptSet(V,false);
     d[src] = 0;
 
+    // Getting the min of d[v]
     for (int count = 0; count < V - 1; count++) {
         int min = INF, min_index;
             for (int v = 0; v < V; v++)
@@ -164,7 +168,7 @@ vector<int> Algorithms::Dijkstra(Graph g,int src){
         int u = min_index;
 
         sptSet[u] = true;
-
+        // Relaxing the Neighbors of the min
         for (int v = 0; v < V; v++){
             if (!sptSet[v] && g.getAdjMatrix()[u][v] < INF && d[u] < INF && d[u] + g.getAdjMatrix()[u][v] < d[v]) {
                 d[v] = d[u] + g.getAdjMatrix()[u][v];
@@ -176,13 +180,14 @@ vector<int> Algorithms::Dijkstra(Graph g,int src){
 }
 
 pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph g, int src) {
+    // Creating the arrays and variables to store data
     bool IsNegativeCycle = false;
     int vStartCycle = -1;
     int V = g.getAdjMatrix().size();
     vector<int> d(V, INF);
     vector<int> pie(V, -1);
     d[src] = 0;
-
+    // relaxing V - 1 time all edges
     for (int i = 0; i < V - 1; i++) {
         for (int u = 0; u < V; u++) {
             for (int v = 0; v < V; v++) {
@@ -191,7 +196,7 @@ pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph
             }
         }
     }
-
+    // relaxing the V time all edges
     for (int u = 0; u < V; u++) {
         for (int v = 0; v < V; v++) {
             if(!g.isDirected() && pie[u] == v){continue;}
@@ -206,6 +211,7 @@ pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph
 }
 
 pair<pair<stack<int>,vector<int>>,pair<int,int>> Algorithms::DFS(Graph g,stack<int> orderOfVertices){
+    // Creating the arrays and variables to store data
     int vStartCycle = -1;
     int vEndCycle = -1;
     int time = 0;
@@ -214,6 +220,7 @@ pair<pair<stack<int>,vector<int>>,pair<int,int>> Algorithms::DFS(Graph g,stack<i
     vector<int> pie(g.getAdjMatrix().size(),-1);
     vector<string> color(g.getAdjMatrix().size(),"White");
 
+    // Going through all vertices in the order of the stack
     while(!orderOfVertices.empty()){
         int u = orderOfVertices.top();
         orderOfVertices.pop();
@@ -262,11 +269,12 @@ bool Algorithms::relax(Graph g,int u, int v,vector<int>* d,vector<int>* pie){
 }
 
 string Algorithms::pathString(vector<int> vertices ,int src,int dest){
-
+    // Getting the Pie Array, src and dest and creating a string that shows the route
     string result = "";
     result.insert(0,to_string(dest));
     int curr = vertices[dest];
     while(curr != src){
+        // If didnt get to source and got -1 return "-1" - no route
         if(curr == -1){return "-1";}
         result.insert(0, to_string(curr) + "->");
         curr=vertices[curr];
@@ -288,6 +296,8 @@ Graph Algorithms::Transpose(Graph g){
 }
 
 pair<bool,vector<int>> Algorithms::twoColoringGraph(Graph g){
+    // If graph has no edges we can order the colors anyway we want
+    // So ordering have in 0 and half in 1
     if (g.getEdges() == 0){
         vector<int> color(g.getAdjMatrix().size(),1);
         for(int i=0;i<g.getAdjMatrix().size()/2;i++){
@@ -295,6 +305,7 @@ pair<bool,vector<int>> Algorithms::twoColoringGraph(Graph g){
         }
         return make_pair(true,color);
     }
+    // Creating arrays and variables to store data
     vector<int> color(g.getAdjMatrix().size(),-1);
     color[0] = 1;
     queue<int> Q;
@@ -303,17 +314,20 @@ pair<bool,vector<int>> Algorithms::twoColoringGraph(Graph g){
     while(!Q.empty()) {
         int u = Q.front();
         Q.pop();
-
+        // Going through all Neighbors of u
         for (int v = 0; v < color.size(); ++v) {
             if (u == v) { continue; }
-
+            // If Neighbor and not colored color in opposite color
             else if ((g.getAdjMatrix()[u][v] < INF || g.getAdjMatrix()[v][u] < INF) && color[v] == -1) {
                 color[v] = 1 - color[u];
                 Q.push(v);
-            } else if ((g.getAdjMatrix()[u][v] < INF || g.getAdjMatrix()[v][u] < INF) && color[v] == color[u]) {
+            }
+            // If colored and Neighbor check if color is opposite, if not return false
+            else if ((g.getAdjMatrix()[u][v] < INF || g.getAdjMatrix()[v][u] < INF) && color[v] == color[u]) {
                 return make_pair(false,color);
             }
         }
+        // If Q is empty search for vertices not connected to the graph and push them to Q
         if (Q.empty()) {
             for (int i = 0; i < color.size(); i++) {
                 if (color[i] == -1) {
