@@ -129,6 +129,10 @@ string Algorithms::isBipartite(Graph g) {
 string Algorithms::negativeCycle(Graph g) {
     //// Theorem: BellmanFord can detect negative cycle
     //// Theorem 2: add s with weight equal to 0 directed to all vertices bellmanFord reach everywhere
+    // If no negative edges return "0"
+    if(!g.getisNegativeEdges()){
+        return "0";
+    }
     // add s to graph
     g.addS();
     int s = g.getAdjMatrix().size() - 1;

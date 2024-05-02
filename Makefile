@@ -12,6 +12,9 @@ OBJECTS_TESTS = $(subst .cpp,.o,$(SOURCES_TESTS))
 run: demo
 	./$^
 
+runTest: test
+	./$^
+
 demo: Demo.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o demo
 
