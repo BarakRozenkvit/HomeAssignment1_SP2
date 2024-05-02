@@ -155,39 +155,22 @@ vector<int> Algorithms::Dijkstra(Graph g,int src){
     vector<bool> sptSet(V,false);
     d[src] = 0;
 
-    // Find shortest path for all vertices
     for (int count = 0; count < V - 1; count++) {
-        // Pick the minimum distance vertex from the set of
-        // vertices not yet processed. u is always equal to
-        // src in the first iteration.
         int min = INF, min_index;
             for (int v = 0; v < V; v++)
                 if (!sptSet[v] && d[v] <= min)
                     min = d[v], min_index = v;
 
         int u = min_index;
-        // Mark the picked vertex as processed
+
         sptSet[u] = true;
 
-        // Update dist value of the adjacent vertices of the
-        // picked vertex.
         for (int v = 0; v < V; v++){
-
-            // Update dist[v] only if is not in sptSet,
-            // there is an edge from u to v, and total
-            // weight of path from src to v through u is
-            // smaller than current value of dist[v]
-            // TODO Fix Algorithm
-            if(u==v || d[u] == INF || g.getAdjMatrix()[u][v] == INF){
-                continue;}
-
-            if (!sptSet[v] && g.getAdjMatrix()[u][v]
-                && d[u] != INF
-                && d[u] + g.getAdjMatrix()[u][v] < d[v]) {
+            if (!sptSet[v] && g.getAdjMatrix()[u][v] < INF && d[u] < INF && d[u] + g.getAdjMatrix()[u][v] < d[v]) {
                 d[v] = d[u] + g.getAdjMatrix()[u][v];
                 pie[v] = u;
             }
-            }
+        }
     }
     return pie;
 }
@@ -305,6 +288,13 @@ Graph Algorithms::Transpose(Graph g){
 }
 
 pair<bool,vector<int>> Algorithms::twoColoringGraph(Graph g){
+    if (g.getEdges() == 0){
+        vector<int> color(g.getAdjMatrix().size(),1);
+        for(int i=0;i<g.getAdjMatrix().size()/2;i++){
+            color[i] = 0;
+        }
+        return make_pair(true,color);
+    }
     vector<int> color(g.getAdjMatrix().size(),-1);
     color[0] = 1;
     queue<int> Q;

@@ -1,6 +1,6 @@
 #include "doctest.h"
 #include "Algorithms.hpp"
-//#include "Graph.hpp"
+#include "Graph.hpp"
 
 using namespace std;
 
@@ -88,6 +88,16 @@ TEST_CASE("Test isBipartite")
             {0, 0, 0, 5, 0}};
     g.loadGraph(graph3);
     CHECK(ariel::Algorithms::isBipartite(g) == "0");
+
+    vector<vector<int>> graph4 = {
+            {0, 0, 0},
+            {0, 0, 0},
+            {0, 0, 0}
+    };
+    g.loadGraph(graph4);
+    CHECK(ariel::Algorithms::isBipartite(g) == "The graph is bipartite: A={1, 2}, B={0}");
+
+
 }
 TEST_CASE("Test invalid graph")
 {
@@ -197,7 +207,7 @@ TEST_CASE("TestAll Directed - No Weights")
     g.loadGraph(graph2);
     CHECK(ariel::Algorithms::isConnected(g) == false);
     CHECK(ariel::Algorithms::shortestPath(g,2,6) == "-1");
-    CHECK(ariel::Algorithms::shortestPath(g,7,2) == "7->0->1->3->2");
+    CHECK(ariel::Algorithms::shortestPath(g,7,2) == "7->0->5->3->2");
     CHECK(ariel::Algorithms::shortestPath(g,4,5) == "-1");
     CHECK(ariel::Algorithms::isContainsCycle(g) == "0->1->3->7->0");
     CHECK(ariel::Algorithms::isBipartite(g) == "0");
@@ -238,7 +248,7 @@ TEST_CASE("TestAll Directed - No Weights")
     CHECK(ariel::Algorithms::shortestPath(g,7,2) == "-1");
     CHECK(ariel::Algorithms::shortestPath(g,4,5) == "-1");
     CHECK(ariel::Algorithms::isContainsCycle(g) == "0");
-//    CHECK(ariel::Algorithms::isBipartite(g) != "0");//-------------------------------
+    CHECK(ariel::Algorithms::isBipartite(g) == "The graph is bipartite: A={4, 5, 6, 7}, B={0, 1, 2, 3}");
     CHECK(ariel::Algorithms::negativeCycle(g) == "0");
 }
 TEST_CASE("TestAll Directed - Non Negative Weights")
