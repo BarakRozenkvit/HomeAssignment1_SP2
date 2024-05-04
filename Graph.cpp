@@ -24,6 +24,11 @@ void Graph::loadGraph(vector <vector<int>> graph) {
             if(i==j && _adjMatrix[i][j] !=0){
                 throw invalid_argument("Invalid graph: i -> i has edge.");
             }
+
+            if(_adjMatrix[i][j] == -INF){
+                throw invalid_argument("Invalid graph: edge with value - Minus Infinty is unknown.");
+            }
+
             if(_adjMatrix[i][j] != _adjMatrix[j][i]){
                 _isDirected = true;
             }
