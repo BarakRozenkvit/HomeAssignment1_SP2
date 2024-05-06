@@ -398,6 +398,22 @@ TEST_CASE("TestAll Directed - Negative Weights")
     CHECK(ariel::Algorithms::isContainsCycle(g) == "2->1->2");
     CHECK(ariel::Algorithms::isBipartite(g) == "The graph is bipartite: A={0, 1}, B={2, 3}");
     CHECK(ariel::Algorithms::negativeCycle(g) == "0");
+
+    vector<vector<int>> graph7 = {
+            {0, 0, 10, 0, 0, 0, 0},
+            {74, 0, 0, 0, 0, 0, 0},
+            {0, 38, 0, 1, 0, 0, 0},
+            {0, 0, 0, 0, 0, 3, 0},
+            {0, 0, 0, 5, 0, 0, 0},
+            {0, 0, 0, 0, -10, 0, 22},
+            {0, 0, 0, 0, 0, 0, 0}
+    };
+    g.loadGraph(graph7);
+    CHECK(ariel::Algorithms::shortestPath(g,0,1) == "-1");
+    CHECK(ariel::Algorithms::isConnected(g) == false);
+
+
+
 }
 TEST_CASE("TestAll Undirected - No Weights")
 {

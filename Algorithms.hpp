@@ -37,7 +37,7 @@ namespace ariel{
         static Graph Transpose(Graph g);
         /**
          * this function is edge relaxation on edge e=(u,v)
-         * Referance: Algorithms 1 - Lecture 10
+         * Referance: Algorithms 1 - Lecture 10 (Based on slides by Prof. Dana Shapira)
          * @param g Graph
          * @param u Vertice
          * @param v Vertice
@@ -48,7 +48,7 @@ namespace ariel{
         static bool relax(Graph g,int u, int v,vector<int>* d,vector<int>* pie);
         /**
          * The single source shortest path algorithm of Bellman Ford for non negative and negative weighted graph
-         * Referance: Algorithms 1 - Lecture 10
+         * Referance: Algorithms 1 - Lecture 10 (Based on slides by Prof. Dana Shapira)
          * @param g Graph
          * @param src Source Vertice
          * @return Tree of data
@@ -68,7 +68,7 @@ namespace ariel{
         static string pathString(vector<int> vertices ,int src,int dest);
         /**
          * The Depth-first-search algorithm
-         * Referance: Algorithms 1 - Lecture 6
+         * Referance: Algorithms 1 - Lecture 6 (Based on slides by Prof. Dana Shapira)
          * @param g Graph
          * @param orderOfVertices order of vertices to scan DFS
          * @return Tree of data
@@ -80,7 +80,7 @@ namespace ariel{
         static pair<pair<stack<int>,vector<int>>,pair<int,int>> DFS(Graph g,stack<int> orderOfVertices);
         /**
          * The DFS_Visit part of DFS algorithm
-         * Referance: Algorithms 1 - Lecture 6
+         * Referance: Algorithms 1 - Lecture 6 (Based on slides by Prof. Dana Shapira)
          * @param g Graph
          * @param u Source Vertice
          * @param d List of d(start time) for each v
@@ -98,7 +98,7 @@ namespace ariel{
 
     public:
         /**
-         * Reference: Algorithms 1 - Lecture 6
+         * Reference: Algorithms 1 - Lecture 6 (Based on slides by Prof. Dana Shapira)
          * the Kosaraju algorithm for strongly connection components - checking if only one strongly connected component
          * @param g Graph
          * @return true or false
