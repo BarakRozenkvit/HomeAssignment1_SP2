@@ -11,7 +11,6 @@ void Graph::loadGraph(vector <vector<int>> graph) {
         throw invalid_argument("Invalid graph: The graph is has only one Vertice.");
     }
 
-
     if (graph.size() != graph[0].size()){
         throw invalid_argument("Invalid graph: The graph is not a square matrix.");
     }
@@ -23,10 +22,6 @@ void Graph::loadGraph(vector <vector<int>> graph) {
         for (int j = 0; j < _adjMatrix[i].size(); j++) {
             if(i==j && _adjMatrix[i][j] !=0){
                 throw invalid_argument("Invalid graph: i -> i has edge.");
-            }
-
-            if(_adjMatrix[i][j] == -INF){
-                throw invalid_argument("Invalid graph: edge with value - Minus Infinty is unknown.");
             }
 
             if(_adjMatrix[i][j] != _adjMatrix[j][i]){
@@ -43,7 +38,7 @@ void Graph::loadGraph(vector <vector<int>> graph) {
 
     for(int i=0; i < _adjMatrix.size(); i++) {
         for (int j = 0; j < _adjMatrix[i].size(); j++) {
-            if(i!=j && _adjMatrix[i][j] == 0){
+            if(i!=j && _adjMatrix[i][j] == 0 || _adjMatrix[i][j] == -INF){
                 _adjMatrix[i][j] = INF;
             }
         }

@@ -5,7 +5,7 @@ using namespace ariel;
 
 // ----------------- Public ---------------------
 
-bool Algorithms::isConnected(Graph g) {
+bool Algorithms::isConnected(Graph &g) {
     //// Theorem 1: Kosaraju algorithm detects strongly connected components in graph
     //// Theorem 2: After the second DFS every tree in the forset will be different strongly connected component
     //// Conclusion: After the second DFS if only one root in the forest -> the entire graph is strongly connected
@@ -41,7 +41,7 @@ bool Algorithms::isConnected(Graph g) {
     return root_num == 1;
 }
 
-string Algorithms::shortestPath(Graph g, int src, int dest) {
+string Algorithms::shortestPath(Graph &g, int src, int dest) {
     //// Theorem: Dijkstra calculates shortestPath from src to any v in V
     /// Theorem: BellmanFord calculates shortestPath from src to any v in V while weight are negative and non negative
     // If non negative weights run Dijkstra in g from src
@@ -70,7 +70,7 @@ string Algorithms::shortestPath(Graph g, int src, int dest) {
     return pathString(pieVertice,src,dest);
 }
 
-string Algorithms::isContainsCycle(Graph g) {
+string Algorithms::isContainsCycle(Graph &g) {
     /// Theorem: DFS can detect cycle with detection of Back Edge
     // Create stack of vertices by order {v,v-1,v-2,...,0}
     stack<int> orderOfVertices;
@@ -94,7 +94,7 @@ string Algorithms::isContainsCycle(Graph g) {
     return "0";
 }
 
-string Algorithms::isBipartite(Graph g) {
+string Algorithms::isBipartite(Graph &g) {
     //// Theorem: Graph is Bipartite if and only if it is 2-Coloring-Graph
     // Run 2-Coloring Graph
     pair<bool,vector<int>> twoColoringResult = Algorithms::twoColoringGraph(g);
@@ -127,7 +127,7 @@ string Algorithms::isBipartite(Graph g) {
     return "0";
 }
 
-string Algorithms::negativeCycle(Graph g) {
+string Algorithms::negativeCycle(Graph &g) {
     //// Theorem: BellmanFord can detect negative cycle
     //// Theorem 2: add s with weight equal to 0 directed to all vertices bellmanFord reach everywhere
     // If no negative edges return "0"
@@ -154,7 +154,7 @@ string Algorithms::negativeCycle(Graph g) {
 
 // ---------------- Private -----------------------
 
-vector<int> Algorithms::Dijkstra(Graph g,int src){
+vector<int> Algorithms::Dijkstra(Graph &g,int src){
     // 1. Creating the arrays to save the results
     int V = g.getAdjMatrix().size();
     vector<int> d(V,INF);
@@ -184,7 +184,7 @@ vector<int> Algorithms::Dijkstra(Graph g,int src){
     return pie;
 }
 
-pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph g, int src) {
+pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph &g, int src) {
     // Creating the arrays and variables to store data
     bool IsNegativeCycle = false;
     int vStartCycle = -1;
@@ -197,7 +197,7 @@ pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph
         for (int u = 0; u < V; u++) {
             for (int v = 0; v < V; v++) {
                 if(!g.isDirected() && pie[u] == v){continue;}
-                Algorithms::relax(g, u, v, &d, &pie);
+                Algorithms::relax(g, u, v, d, pie);
             }
         }
     }
@@ -205,7 +205,7 @@ pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph
     for (int u = 0; u < V; u++) {
         for (int v = 0; v < V; v++) {
             if(!g.isDirected() && pie[u] == v){continue;}
-            if (Algorithms::relax(g, u, v, &d, &pie)) {
+            if (Algorithms::relax(g, u, v, d, pie)) {
                 IsNegativeCycle = true;
                 vStartCycle = v;
                 break;
@@ -215,7 +215,7 @@ pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph
     return make_pair(make_pair(pie,d), make_pair(IsNegativeCycle,vStartCycle));
 }
 
-pair<pair<stack<int>,vector<int>>,pair<int,int>> Algorithms::DFS(Graph g,stack<int> orderOfVertices){
+pair<pair<stack<int>,vector<int>>,pair<int,int>> Algorithms::DFS(Graph &g,stack<int> &orderOfVertices){
     // Creating the arrays and variables to store data
     int vStartCycle = -1;
     int vEndCycle = -1;
@@ -230,50 +230,50 @@ pair<pair<stack<int>,vector<int>>,pair<int,int>> Algorithms::DFS(Graph g,stack<i
         int u = orderOfVertices.top();
         orderOfVertices.pop();
         if(color[u] == "White"){
-            Algorithms::DFS_Visit(g,u,&d,&f,&pie,&color,&time,&vStartCycle,&vEndCycle);
+            Algorithms::DFS_Visit(g,u,d,f,pie,color,time,vStartCycle,vEndCycle);
         }
     }
     return make_pair(make_pair(f,pie), make_pair(vStartCycle,vEndCycle));
 }
 
-void Algorithms::DFS_Visit(Graph g,int u, vector<int>* d,stack<int>* f, vector<int>* pie,vector<string>* color, int* time,int* vStartCycle,int* vEndCycle){
-    (*color)[u] = "Gray";
-    (*time)++;
-    (*d)[u] = *time;
+void Algorithms::DFS_Visit(Graph &g,int u, vector<int> &d,stack<int> &f, vector<int> &pie,vector<string> &color, int &time,int &vStartCycle,int &vEndCycle){
+    color[u] = "Gray";
+    time++;
+    d[u] = time;
     for(int v = 0;v<g.getAdjMatrix().size();v++){
-        if(!g.isDirected() && (*pie)[u] == v){continue;}
+        if(!g.isDirected() && pie[u] == v){continue;}
         if(u != v && g.getAdjMatrix()[u][v] < INF){
 
-            if((*color)[v] == "Gray"){
-                (*vStartCycle) = v;
-                (*vEndCycle) = u;
+            if(color[v] == "Gray"){
+                vStartCycle = v;
+                vEndCycle = u;
             }
-            if((*color)[v] == "White"){
-                (*pie)[v] = u;
+            if(color[v] == "White"){
+                pie[v] = u;
                 DFS_Visit(g,v,d,f,pie,color,time,vStartCycle,vEndCycle);
             }
         }
 
     }
-    (*color)[u] = "Black";
-    (*time)++;
-    (*f).push(u);
+    color[u] = "Black";
+    time++;
+    f.push(u);
 }
 
-bool Algorithms::relax(Graph g,int u, int v,vector<int>* d,vector<int>* pie){
-   if(u==v || (*d)[u] == INF || g.getAdjMatrix()[u][v] == INF){
+bool Algorithms::relax(Graph &g,int u, int v,vector<int> &d,vector<int> &pie){
+   if(u==v || d[u] == INF || g.getAdjMatrix()[u][v] == INF){
        return false;}
 
-   if ((*d)[v] > (*d)[u] + g.getAdjMatrix()[u][v]) {
-        (*d)[v] = (*d)[u] + g.getAdjMatrix()[u][v];
-        (*pie)[v] = u;
+   if (d[v] > d[u] + g.getAdjMatrix()[u][v]) {
+        d[v] = d[u] + g.getAdjMatrix()[u][v];
+        pie[v] = u;
        return true;
     }
 
     return false;
 }
 
-string Algorithms::pathString(vector<int> vertices ,int src,int dest){
+string Algorithms::pathString(vector<int> &vertices ,int src,int dest){
     // Getting the Pie Array, src and dest and creating a string that shows the route
     string result = "";
     result.insert(0,to_string(dest));
@@ -287,7 +287,7 @@ string Algorithms::pathString(vector<int> vertices ,int src,int dest){
     return result.insert(0, to_string(src) +"->");
 }
 
-Graph Algorithms::Transpose(Graph g){
+Graph Algorithms::Transpose(Graph &g){
     vector<vector<int>>matT(g.getAdjMatrix());
     for(int i=0;i<matT.size();i++){
         for(int j=i+1;j<matT[i].size();j++){
@@ -300,7 +300,7 @@ Graph Algorithms::Transpose(Graph g){
     return gT;
 }
 
-pair<bool,vector<int>> Algorithms::twoColoringGraph(Graph g){
+pair<bool,vector<int>> Algorithms::twoColoringGraph(Graph &g){
     // If graph has no edges we can order the colors anyway we want
     // So ordering have in 0 and half in 1
     if (g.getEdges() == 0){

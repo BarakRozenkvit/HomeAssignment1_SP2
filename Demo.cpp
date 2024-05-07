@@ -44,7 +44,7 @@ int main()
     cout << Algorithms::isBipartite(g) << endl;        // Should print: "0" (false).
 
     // 5x5 matrix that reprsents a connected weighted graph.
-    vector<vector<int>> graph3 = {
+    vector<vector<int> > graph3 = {
         {0, 1, 2, 0, 0},
         {1, 0, 3, 0, 0},
         {2, 3, 0, 4, 0},
