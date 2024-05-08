@@ -127,7 +127,7 @@ string Algorithms::isBipartite(Graph &g) {
     return "0";
 }
 
-string Algorithms::negativeCycle(Graph &g) {
+string Algorithms::negativeCycle(Graph g) {
     //// Theorem: BellmanFord can detect negative cycle
     //// Theorem 2: add s with weight equal to 0 directed to all vertices bellmanFord reach everywhere
     // If no negative edges return "0"

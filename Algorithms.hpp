@@ -129,6 +129,6 @@ namespace ariel{
          * @param g Graph
          * @return String of cycle "a->...->a" if there is a negative cycle, "0" if there isn't
          */
-        static string negativeCycle(Graph &g);
+        static string negativeCycle(Graph g);
     };
 }
