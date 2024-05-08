@@ -534,35 +534,56 @@ TEST_CASE("TestAll Undirected - Non Negative Weights")
 TEST_CASE("TestAll Undirected - Negative Weights")
 {
     ariel::Graph g;
-    vector <vector<int>> graph = {
-            {0, 0, 0, 1, 0, 0},
-            {0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, -1, -22},
-            {1, 0, 0, 0, 0, 0},
-            {0, 0, -1, 0, 0, 8},
-            {0, 0, -22, 0, 8, 0}
+    vector<vector<int>> graph = {
+            {0, 0, 0,   1, 0,  0},
+            {0, 0, 0,   0, 0,  0},
+            {0, 0, 0,   0, -1, -22},
+            {1, 0, 0,   0, 0,  0},
+            {0, 0, -1,  0, 0,  8},
+            {0, 0, -22, 0, 8,  0}
     };
     g.loadGraph(graph);
     CHECK(ariel::Algorithms::isConnected(g) == false);
-    CHECK(ariel::Algorithms::shortestPath(g, 0 ,3) == "0->3");
+    CHECK(ariel::Algorithms::shortestPath(g, 0, 3) == "0->3");
     CHECK(ariel::Algorithms::isContainsCycle(g) == "2->4->5->2");
     CHECK(ariel::Algorithms::isBipartite(g) == "0");
     CHECK(ariel::Algorithms::negativeCycle(g) == "2->5->4->2");
 
-    vector <vector<int>> graph2 = {
-            {0, 0, 0, 1, 0, 0},
-            {0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, -1, 22},
-            {1, 0, 0, 0, 0, 0},
-            {0, 0, -1, 0, 0, 8},
-            {0, 0, 22, 0, 8, 0}
+    vector<vector<int>> graph2 = {
+            {0, 0, 0,  1, 0,  0},
+            {0, 0, 0,  0, 0,  0},
+            {0, 0, 0,  0, -1, 22},
+            {1, 0, 0,  0, 0,  0},
+            {0, 0, -1, 0, 0,  8},
+            {0, 0, 22, 0, 8,  0}
     };
     g.loadGraph(graph2);
     CHECK(ariel::Algorithms::isConnected(g) == false);
-    CHECK(ariel::Algorithms::shortestPath(g, 2 ,4) == "2->4");
+    CHECK(ariel::Algorithms::shortestPath(g, 2, 4) == "2->4");
     CHECK(ariel::Algorithms::isContainsCycle(g) == "2->4->5->2");
     CHECK(ariel::Algorithms::isBipartite(g) == "0");
     CHECK(ariel::Algorithms::negativeCycle(g) == "0");
+
+    vector<vector<int>> graph3 = {
+            {0, 7,  0,  0,  0},
+            {7, 0,  -1, 10, 0},
+            {0, -1, 0,  10, 7},
+            {0, 10, 10, 0,  0},
+            {0, 0,  7,  0,  0}
+
+    };
+    g.loadGraph(graph3);
+    CHECK(ariel::Algorithms::negativeCycle(g) == "0");
+
+    vector<vector<int>> graph6={{0, 10, -1, 1, 0},
+                                {10, 0, 10, 0, 0},
+                                {-1, 10, 0, 0, 2},
+                                {1, 0, 0, 0, 0},
+                                {0, 0, 2, 0, 0}};
+    g.loadGraph(graph6);
+    CHECK(ariel::Algorithms::shortestPath(g,1,0)=="1->2->0");
+    CHECK(ariel::Algorithms::shortestPath(g,1,2)=="1->0->2");
+
 }
 TEST_CASE("TestAll invalid graphs")
 {

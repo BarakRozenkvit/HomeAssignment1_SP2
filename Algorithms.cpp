@@ -196,6 +196,7 @@ pair<pair<vector<int>,vector<int>>,pair<bool,int>> Algorithms::BellmanFord(Graph
     for (int i = 0; i < V - 1; i++) {
         for (int u = 0; u < V; u++) {
             for (int v = 0; v < V; v++) {
+                // if undirected and relax uv or vu dont relax again beacause weights are negative
                 if(!g.isDirected() && pie[u] == v){continue;}
                 Algorithms::relax(g, u, v, d, pie);
             }
@@ -289,6 +290,7 @@ string Algorithms::pathString(vector<int> &vertices ,int src,int dest){
 
 Graph Algorithms::Transpose(Graph &g){
     vector<vector<int>>matT(g.getAdjMatrix());
+
     for(int i=0;i<matT.size();i++){
         for(int j=i+1;j<matT[i].size();j++){
             matT[i][j] = g.getAdjMatrix()[j][i];
