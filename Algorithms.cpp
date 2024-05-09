@@ -151,7 +151,6 @@ string Algorithms::negativeCycle(Graph g) {
     return "0";
 }
 
-
 // ---------------- Private -----------------------
 
 vector<int> Algorithms::Dijkstra(Graph &g,int src){
@@ -289,8 +288,7 @@ string Algorithms::pathString(vector<int> &vertices ,int src,int dest){
 }
 
 Graph Algorithms::Transpose(Graph &g){
-    vector<vector<int>>matT(g.getAdjMatrix());
-
+    vector<vector<int>>matT(g.getAdjMatrix().size(),vector<int>(g.getAdjMatrix().size()));//(g.getAdjMatrix());
     for(int i=0;i<matT.size();i++){
         for(int j=i+1;j<matT[i].size();j++){
             matT[i][j] = g.getAdjMatrix()[j][i];

@@ -23,7 +23,7 @@ namespace ariel {
 
         void printGraph();
 
-        vector<vector<int>> getAdjMatrix(){
+        vector<vector<int>>& getAdjMatrix(){
             return _adjMatrix;
         }
 

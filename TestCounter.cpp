@@ -33,6 +33,10 @@ int main(int argc, char **argv)
 {
     Context context;
     context.addFilter("reporters", "counter");
+    clock_t begin = clock();
     context.run();
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("%f",time_spent);
     return return_code;
 }
