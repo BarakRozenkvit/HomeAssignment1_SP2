@@ -582,7 +582,6 @@ TEST_CASE("TestAll Undirected - Negative Weights")
                                 {0, 0, 2, 0, 0}};
     g.loadGraph(graph6);
     CHECK(ariel::Algorithms::shortestPath(g,1,0)=="1->2->0");
-//    CHECK(ariel::Algorithms::shortestPath(g,1,2)=="1->0->2");
 
 }
 TEST_CASE("TestAll invalid graphs")
